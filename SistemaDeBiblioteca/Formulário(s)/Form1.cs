@@ -1,6 +1,7 @@
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using MySql.Data.MySqlClient;
 using SistemaDeBiblioteca.Formulário_s_;
 
 namespace SistemaDeBiblioteca
@@ -43,6 +44,7 @@ namespace SistemaDeBiblioteca
             // limpa os campos de texto ao alterar o tipo de perfil na ComboBox:
             textBox1.Clear();
             textBox2.Clear();
+            
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -54,6 +56,9 @@ namespace SistemaDeBiblioteca
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+
+
             if (comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
             {
                 if (!cadastro.CPFValido(textBox2.Text))
@@ -78,6 +83,8 @@ namespace SistemaDeBiblioteca
             if (string.IsNullOrWhiteSpace(textBox2.Text))
                 MessageBox.Show("Preencha o campo 'Senha' para poder se cadastrar");
                 textBox2.Focus();
+
+
         }
     }
 }

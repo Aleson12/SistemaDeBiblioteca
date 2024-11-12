@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            textBox4 = new TextBox();
+            label2 = new Label();
             textBox1 = new TextBox();
             button1 = new Button();
             textBox2 = new TextBox();
@@ -45,6 +47,8 @@
             // 
             groupBox1.Anchor = AnchorStyles.None;
             groupBox1.AutoSize = true;
+            groupBox1.Controls.Add(textBox4);
+            groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox2);
@@ -56,42 +60,59 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(800, 450);
+            groupBox1.Size = new Size(800, 464);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Cadastro";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(173, 321);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(571, 27);
+            textBox4.TabIndex = 5;
+            textBox4.TextChanged += textBox4_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(47, 199);
+            label2.Name = "label2";
+            label2.Size = new Size(49, 20);
+            label2.TabIndex = 15;
+            label2.Text = "Email:";
             // 
             // textBox1
             // 
             textBox1.Location = new Point(102, 136);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(632, 27);
+            textBox1.Size = new Size(637, 27);
             textBox1.TabIndex = 2;
+            textBox1.Text = " ";
             // 
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             button1.Cursor = Cursors.Hand;
-            button1.Location = new Point(337, 335);
+            button1.Location = new Point(339, 391);
             button1.Name = "button1";
             button1.Size = new Size(128, 47);
-            button1.TabIndex = 5;
+            button1.TabIndex = 6;
             button1.Text = "Criar conta";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(169, 268);
+            textBox2.Location = new Point(102, 196);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(565, 27);
-            textBox2.TabIndex = 4;
-            textBox2.TextChanged += textBox2_TextChanged;
+            textBox2.Size = new Size(637, 27);
+            textBox2.TabIndex = 3;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(43, 271);
+            label5.Location = new Point(47, 324);
             label5.Name = "label5";
             label5.Size = new Size(120, 20);
             label5.TabIndex = 14;
@@ -120,16 +141,16 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(102, 203);
+            textBox3.Location = new Point(105, 256);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(634, 27);
-            textBox3.TabIndex = 3;
+            textBox3.TabIndex = 4;
             textBox3.TextChanged += textBox3_TextChanged;
             // 
             // Senha
             // 
             Senha.AutoSize = true;
-            Senha.Location = new Point(43, 206);
+            Senha.Location = new Point(47, 259);
             Senha.Name = "Senha";
             Senha.Size = new Size(52, 20);
             Senha.TabIndex = 4;
@@ -171,5 +192,7 @@
         private Label label5;
         private Button button1;
         private TextBox textBox1;
+        private Label label2;
+        private TextBox textBox4;
     }
 }
