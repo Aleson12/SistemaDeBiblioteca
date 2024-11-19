@@ -48,6 +48,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.None;
+            groupBox1.AutoSize = true;
+            groupBox1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(textBox7);
@@ -62,10 +65,9 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label1);
-            groupBox1.Dock = DockStyle.Fill;
-            groupBox1.Location = new Point(0, 0);
+            groupBox1.Location = new Point(44, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(800, 450);
+            groupBox1.Size = new Size(717, 403);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Sistema de Biblioteca";
@@ -201,6 +203,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
