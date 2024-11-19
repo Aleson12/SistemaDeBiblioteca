@@ -56,9 +56,6 @@ namespace SistemaDeBiblioteca
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
-
             if (comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
             {
                 if (!cadastro.CPFValido(textBox2.Text))
@@ -83,13 +80,6 @@ namespace SistemaDeBiblioteca
             if (string.IsNullOrWhiteSpace(textBox2.Text))
                 MessageBox.Show("Preencha o campo 'Senha' para poder se cadastrar");
             textBox2.Focus();
-
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

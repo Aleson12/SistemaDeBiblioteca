@@ -23,6 +23,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
 {
     public partial class Cadastro : Form
     {
+        TelaInicial telaInicial = new TelaInicial();
         private FirestoreDb db;
 
         public Cadastro()
@@ -309,6 +310,8 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
             if (textBox3.Text != textBox4.Text)
                 MessageBox.Show("Os dois campos de Senha não correspondem");
+
+            telaInicial.Show();
         }
 
         public bool EmailValido(string email)

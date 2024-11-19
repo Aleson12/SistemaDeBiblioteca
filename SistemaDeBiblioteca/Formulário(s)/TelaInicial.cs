@@ -21,5 +21,10 @@ namespace SistemaDeBiblioteca.Formulário_s_
         {
 
         }
+
+        private void TelaInicial_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
