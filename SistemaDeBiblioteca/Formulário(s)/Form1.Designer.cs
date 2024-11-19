@@ -62,7 +62,7 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F);
-            label1.Location = new Point(364, 34);
+            label1.Location = new Point(362, 10);
             label1.Name = "label1";
             label1.Size = new Size(206, 35);
             label1.TabIndex = 0;
@@ -71,7 +71,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 213);
+            label2.Location = new Point(179, 193);
             label2.Name = "label2";
             label2.Size = new Size(53, 20);
             label2.TabIndex = 7;
@@ -80,15 +80,15 @@
             // textBox1
             // 
             textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Location = new Point(65, 206);
+            textBox1.Location = new Point(238, 186);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(831, 27);
+            textBox1.Size = new Size(455, 27);
             textBox1.TabIndex = 2;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(7, 296);
+            label3.Location = new Point(180, 261);
             label3.Name = "label3";
             label3.Size = new Size(52, 20);
             label3.TabIndex = 9;
@@ -97,16 +97,16 @@
             // textBox2
             // 
             textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.Location = new Point(65, 289);
+            textBox2.Location = new Point(238, 258);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(831, 27);
+            textBox2.Size = new Size(455, 27);
             textBox2.TabIndex = 3;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(7, 126);
+            label4.Location = new Point(132, 126);
             label4.Name = "label4";
             label4.Size = new Size(100, 20);
             label4.TabIndex = 11;
@@ -118,9 +118,9 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Administrador", "Bibliotecário", "Professor", "Aluno", "Usuário Externo" });
-            comboBox1.Location = new Point(113, 123);
+            comboBox1.Location = new Point(238, 118);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(783, 28);
+            comboBox1.Size = new Size(455, 28);
             comboBox1.TabIndex = 1;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -141,19 +141,20 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(textBox2);
-            groupBox1.Location = new Point(0, 0);
+            groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(940, 558);
+            groupBox1.Size = new Size(937, 511);
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Login";
+            groupBox1.Enter += groupBox1_Enter;
             // 
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button1.Location = new Point(394, 376);
+            button1.Location = new Point(404, 346);
             button1.Name = "button1";
-            button1.Size = new Size(128, 47);
+            button1.Size = new Size(125, 47);
             button1.TabIndex = 5;
             button1.Text = "Entrar";
             button1.UseVisualStyleBackColor = true;

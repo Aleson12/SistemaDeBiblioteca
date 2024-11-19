@@ -30,6 +30,9 @@ namespace SistemaDeBiblioteca.Formulário_s_
             InitializeComponent();
             ConexaoAoBanco();
 
+            label3.Visible = false; // deixar invisível o texto
+            textBox5.Visible = false; // deixar invisível a caixa de texto
+
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:/Users/feliz/source/repos/SistemaDeBiblioteca/JSON/sistemabiblioteca-46e43-firebase-adminsdk-qc25f-b7448b0e64.json");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
 
@@ -54,16 +57,20 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show("Erro: " + ex.Message);
-
                 }
             }
         }
 
         public void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
+            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador")
+            {
+                label3.Visible = true; // mostrar o texto
+                textBox5.Visible = true; // mostrar a caixa de texto
+                MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
+            }
+            else if (comboBox1.SelectedItem.ToString() == "Professor")
                 MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
             else if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Aluno")
                 MessageBox.Show("A tua senha é o teu número de matrícula (13 dígitos consecutivos).");
@@ -121,38 +128,38 @@ namespace SistemaDeBiblioteca.Formulário_s_
         }
 
         private async void button1_Click(object sender, EventArgs e)
-        {   
-                // Defina a string de conexão com as credenciais do banco
-                string stringDeConexao = "Server=localhost;Database=sistemabiblioteca;Uid=root;Pwd=28064212";
+        {
+            // Defina a string de conexão com as credenciais do banco
+            string stringDeConexao0 = "Server=localhost;Database=sistemabiblioteca;Uid=root;Pwd=28064212";
 
-                // Obtenha os valores dos campos de texto
-                string nomeUsuario = textBox1.Text;
-                string emailUsuario = textBox2.Text;
-                string senhaUsuarioCPF = textBox3.Text;
-                string confirmarSenhaUsuarioCPF = textBox4.Text;
+            // Obtenha os valores dos campos de texto
+            string nomeUsuario = textBox1.Text;
+            string emailUsuario = textBox2.Text;
+            string senhaUsuarioCPF = textBox3.Text;
+            string confirmarSenhaUsuarioCPF = textBox4.Text;
 
-                using (MySqlConnection connection0 = new MySqlConnection(stringDeConexao))
+            using (MySqlConnection connection0 = new MySqlConnection(stringDeConexao0))
+            {
+                try
                 {
-                    try
-                    {
-                        connection0.Open();
+                    connection0.Open();
 
-                        string query0 = "INSERT INTO usuario (email, cpf, nome) VALUES (@Email, @CPF, @Nome)";
-                        MySqlCommand command0 = new MySqlCommand(query0, connection0);
-                        // Use parâmetros para evitar injeção de SQL
-                        command0.Parameters.AddWithValue("@Email", emailUsuario);
-                        command0.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
-                        command0.Parameters.AddWithValue("@Nome", nomeUsuario);
+                    string query0 = "INSERT INTO usuario (email, cpf, nome) VALUES (@Email, @CPF, @Nome)";
+                    MySqlCommand command0 = new MySqlCommand(query0, connection0);
+                    // Use parâmetros para evitar injeção de SQL
+                    command0.Parameters.AddWithValue("@Email", emailUsuario);
+                    command0.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
+                    command0.Parameters.AddWithValue("@Nome", nomeUsuario);
 
-                        command0.ExecuteNonQuery();
+                    command0.ExecuteNonQuery();
 
-                        MessageBox.Show("Dados inseridos com sucesso!");                 
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erro: " + ex.Message);
-                    }
+                    MessageBox.Show("Dados inseridos com sucesso!");
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro: " + ex.Message);
+                }
+            }
             if (comboBox1.SelectedItem.ToString() == "Administrador")
             {
 
@@ -161,8 +168,9 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 string emailAdmin = textBox2.Text;
                 string senhaAdminMatricula = textBox3.Text;
                 string confirmarSenhaAdminMatricula = textBox4.Text;
+                string matriculaAdministrador = textBox5.Text;
 
-                using (MySqlConnection connection1 = new MySqlConnection(stringDeConexao))
+                using (MySqlConnection connection1 = new MySqlConnection(stringDeConexao0))
                 {
                     try
                     {
@@ -171,7 +179,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
                         string query1 = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@Matricula, @CPF, @Email, @Nome)";
                         MySqlCommand command1 = new MySqlCommand(query1, connection1);
                         // Use parâmetros para evitar injeção de SQL
-                        command1.Parameters.AddWithValue("@Matricula", senhaAdminMatricula);
+                        command1.Parameters.AddWithValue("@Matricula", matriculaAdministrador);
                         command1.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
                         command1.Parameters.AddWithValue("@Email", emailAdmin);
                         command1.Parameters.AddWithValue("@Nome", nomeAdmin);
@@ -193,7 +201,39 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
             else if (comboBox1.SelectedItem.ToString() == "Professor")
             {
+                // Obtenha os valores dos campos de texto
+                string nomeProfessor = textBox1.Text;
+                string emailProfessor = textBox2.Text;
+                string senhaCPFProfessor = textBox3.Text;
+                string confirmarSenhaCPFProfessor = textBox4.Text;
 
+                using (MySqlConnection connection2 = new MySqlConnection(stringDeConexao0))
+                {
+                    try
+                    {
+                        connection2.Open();
+
+                        string query2 = "INSERT INTO professor (senha, nomeLogin, cpf_professor, email) VALUES (@Senha, @NomeLogin, @CPF, @Email)";
+                        MySqlCommand command2 = new MySqlCommand(query2, connection2);
+                        // Use parâmetros para evitar injeção de SQL
+                        command2.Parameters.AddWithValue("@Senha", senhaCPFProfessor);
+                        command2.Parameters.AddWithValue("@NomeLogin", nomeProfessor);
+                        command2.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaCPFProfessor, @"\D", ""));
+                        command2.Parameters.AddWithValue("@Email", emailProfessor);
+
+                        command2.ExecuteNonQuery();
+
+                        MessageBox.Show("Dados inseridos com sucesso!");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro: " + ex.Message);
+                    }
+                }
+                if (!CPFValido(textBox3.Text))
+                    MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
             }
 
             else if (comboBox1.SelectedItem.ToString() == "Aluno")
@@ -250,7 +290,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
             }
 
             string email1 = textBox2.Text;
-                
+
             if (!EmailValido(email1))
             {
                 MessageBox.Show("O e-mail digitado não é válido. Por favor, insira um e-mail no formato correto (exemplo: usuario@dominio.com).",
@@ -284,6 +324,24 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 textBox4.Text = CPF_Formatacao(textBox4.Text);
             textBox4.SelectionStart = textBox4.Text.Length;
         }
+
+        private void TextBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+                e.Handled = true;
+        }
+        
+        private void TextBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox5.Text.Length > 8)
+                textBox5.Text = textBox5.Text.Substring(0, 8);
+                textBox5.SelectionStart = textBox5.Text.Length;
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            textBox5.KeyPress += TextBox5_KeyPress;
+            textBox5.TextChanged += TextBox5_TextChanged;
+        }
     }
 }
-
