@@ -29,7 +29,9 @@ namespace SistemaDeBiblioteca
 
         private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            cadastro.Show();
+            // toda vez em que o link for clicado, instanciar-se-á um novo objeto (o que se traduz aqui como um novo formulário).
+            Cadastro cadastro1 = new Cadastro();
+            cadastro1.Show();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
