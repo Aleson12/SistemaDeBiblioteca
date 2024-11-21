@@ -139,6 +139,22 @@ namespace SistemaDeBiblioteca.Formulário_s_
             string senhaUsuarioCPF = textBox3.Text;
             string confirmarSenhaUsuarioCPF = textBox4.Text;
 
+            // Validação para garantir que as senhas sejam iguais
+            if (senhaUsuarioCPF != confirmarSenhaUsuarioCPF)
+            {
+                MessageBox.Show("As senhas não coincidem. Por favor, verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox4.Focus(); // Foca no campo de confirmação para correção
+                return; // Interrompe a execução do código
+            }
+
+            // Validação do CPF (apenas números e formato correto)
+            if (!CPFValido(senhaUsuarioCPF))
+            {
+                MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
+                return; // Interrompe a execução do código
+            }
+
             using (MySqlConnection connection0 = new MySqlConnection(stringDeConexao0))
             {
                 try
@@ -154,7 +170,6 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
                     command0.ExecuteNonQuery();
 
-                    MessageBox.Show("Dados inseridos com sucesso!");
                 }
                 catch (Exception ex)
                 {
@@ -167,37 +182,54 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 // Obtenha os valores dos campos de texto
                 string nomeAdmin = textBox1.Text;
                 string emailAdmin = textBox2.Text;
-                string senhaAdminMatricula = textBox3.Text;
-                string confirmarSenhaAdminMatricula = textBox4.Text;
+                string senhaAdminCPF = textBox3.Text;
+                string confirmarSenhaAdminCPF = textBox4.Text;
                 string matriculaAdministrador = textBox5.Text;
+
+                // Validação para garantir que as senhas sejam iguais
+                if (senhaAdminCPF != confirmarSenhaAdminCPF)
+                {
+                    MessageBox.Show("As senhas não coincidem. Por favor, verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox4.Focus(); // Foca no campo de confirmação para correção
+                    return; // Interrompe a execução do código
+                }
+
+                // Validação do CPF (apenas números e formato correto)
+                if (!CPFValido(senhaAdminCPF))
+                {
+                    MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
+                    return; // Interrompe a execução do código
+                }
 
                 using (MySqlConnection connection1 = new MySqlConnection(stringDeConexao0))
                 {
                     try
                     {
-                        connection1.Open();
+                            connection1.Open();
 
-                        string query1 = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@Matricula, @CPF, @Email, @Nome)";
-                        MySqlCommand command1 = new MySqlCommand(query1, connection1);
-                        // Use parâmetros para evitar injeção de SQL
-                        command1.Parameters.AddWithValue("@Matricula", matriculaAdministrador);
-                        command1.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
-                        command1.Parameters.AddWithValue("@Email", emailAdmin);
-                        command1.Parameters.AddWithValue("@Nome", nomeAdmin);
+                            string query1 = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@Matricula, @CPF, @Email, @Nome)";
+                            MySqlCommand command1 = new MySqlCommand(query1, connection1);
+                            // Use parâmetros para evitar injeção de SQL
+                            command1.Parameters.AddWithValue("@Matricula", matriculaAdministrador);
+                            command1.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaAdminCPF, @"\D", ""));
+                            command1.Parameters.AddWithValue("@Email", emailAdmin);
+                            command1.Parameters.AddWithValue("@Nome", nomeAdmin);
 
-                        command1.ExecuteNonQuery();
+                            command1.ExecuteNonQuery();
 
-                        MessageBox.Show("Dados inseridos com sucesso!");
+                            MessageBox.Show("Dados inseridos com sucesso!");
+
+                            TelaInicial telaInicial = new TelaInicial();
+                            telaInicial.Show();
+                        
+
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Erro: " + ex.Message);
                     }
                 }
-
-                if (!CPFValido(textBox3.Text))
-                    MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
             }
 
             else if (comboBox1.SelectedItem.ToString() == "Professor")
@@ -207,6 +239,22 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 string emailProfessor = textBox2.Text;
                 string senhaCPFProfessor = textBox3.Text;
                 string confirmarSenhaCPFProfessor = textBox4.Text;
+
+                // Validação para garantir que as senhas sejam iguais
+                if (senhaCPFProfessor != confirmarSenhaCPFProfessor)
+                {
+                    MessageBox.Show("As senhas não coincidem. Por favor, verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox4.Focus(); // Foca no campo de confirmação para correção
+                    return; // Interrompe a execução do código
+                }
+
+                // Validação do CPF (apenas números e formato correto)
+                if (!CPFValido(senhaCPFProfessor))
+                {
+                    MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
+                    return; // Interrompe a execução do código
+                }
 
                 using (MySqlConnection connection2 = new MySqlConnection(stringDeConexao0))
                 {
@@ -232,9 +280,6 @@ namespace SistemaDeBiblioteca.Formulário_s_
                         MessageBox.Show("Erro: " + ex.Message);
                     }
                 }
-                if (!CPFValido(textBox3.Text))
-                    MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBox3.Focus(); // Foca novamente no campo para corrigir o erro 
             }
 
             else if (comboBox1.SelectedItem.ToString() == "Aluno")
@@ -311,7 +356,6 @@ namespace SistemaDeBiblioteca.Formulário_s_
             if (textBox3.Text != textBox4.Text)
                 MessageBox.Show("Os dois campos de Senha não correspondem");
 
-            telaInicial.Show();
         }
 
         public bool EmailValido(string email)
