@@ -142,6 +142,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
             // Validação para garantir que as senhas sejam iguais
             if (senhaUsuarioCPF != confirmarSenhaUsuarioCPF)
             {
+                
                 MessageBox.Show("As senhas não coincidem. Por favor, verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox4.Focus(); // Foca no campo de confirmação para correção
                 return; // Interrompe a execução do código
@@ -161,8 +162,14 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 {
                     connection0.Open();
 
-                    string query0 = "INSERT INTO usuario (email, cpf, nome) VALUES (@Email, @CPF, @Nome)";
-                    MySqlCommand command0 = new MySqlCommand(query0, connection0);
+                    // Verificar se o CPF ou matrícula já existe
+                    string queryVerificar = "SELECT COUNT(*) FROM usuario WHERE cpf = @CPF OR nome = @Nome";
+                    MySqlCommand verificarCommand = new MySqlCommand(queryVerificar, connection0);
+                    verificarCommand.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
+                    verificarCommand.Parameters.AddWithValue("@Nome", nomeUsuario);
+
+                    string queryInserir0 = "INSERT INTO usuario (email, cpf, nome) VALUES (@Email, @CPF, @Nome)";
+                    MySqlCommand command0 = new MySqlCommand(queryInserir0, connection0);
                     // Use parâmetros para evitar injeção de SQL
                     command0.Parameters.AddWithValue("@Email", emailUsuario);
                     command0.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaUsuarioCPF, @"\D", ""));
@@ -206,10 +213,17 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 {
                     try
                     {
-                            connection1.Open();
+                        connection1.Open();
 
-                            string query1 = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@Matricula, @CPF, @Email, @Nome)";
-                            MySqlCommand command1 = new MySqlCommand(query1, connection1);
+                        // Verificar se o CPF ou matrícula já existe
+                        string queryVerificar = "SELECT COUNT(*) FROM administradordosistema WHERE cpf_usuario = @CPF OR nome = @Nome OR matricula = @Matricula" ;
+                        MySqlCommand verificarCommand1 = new MySqlCommand(queryVerificar, connection1);
+                        verificarCommand1.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaAdminCPF, @"\D", ""));
+                        verificarCommand1.Parameters.AddWithValue("@Nome", nomeAdmin);
+                        verificarCommand1.Parameters.AddWithValue("@Matricula", matriculaAdministrador);
+
+                        string queryInserir1 = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@Matricula, @CPF, @Email, @Nome)";
+                            MySqlCommand command1 = new MySqlCommand(queryInserir1, connection1);
                             // Use parâmetros para evitar injeção de SQL
                             command1.Parameters.AddWithValue("@Matricula", matriculaAdministrador);
                             command1.Parameters.AddWithValue("@CPF", Regex.Replace(confirmarSenhaAdminCPF, @"\D", ""));
@@ -221,8 +235,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
                             MessageBox.Show("Dados inseridos com sucesso!");
 
                             TelaInicial telaInicial = new TelaInicial();
-                            telaInicial.Show();
-                        
+                            telaInicial.ShowDialog();
 
                     }
                     catch (Exception ex)
