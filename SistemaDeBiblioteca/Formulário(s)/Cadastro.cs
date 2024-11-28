@@ -65,27 +65,57 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
         public void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador")
-            {
-                label3.Visible = true; // mostrar o texto
-                textBox5.Visible = true; // mostrar a caixa de texto
-                MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
-            }
-            else if (comboBox1.SelectedItem.ToString() == "Professor")
-                MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
-            else if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Aluno")
-                MessageBox.Show("A tua senha é o teu número de matrícula (13 dígitos consecutivos).");
-            else
-                MessageBox.Show("A tua senha deve ter 8 (oito) dígitos, no mínimo.");
+            // Configura visibilidade padrão (invisível)
+            label3.Visible = false;
+            textBox5.Visible = false;
 
-            // limpa os campos de texto ao alterar o tipo de perfil na ComboBox:
+            if (comboBox1.SelectedItem != null)
+            {
+                string tipoPerfil = comboBox1.SelectedItem.ToString();
+
+                switch (tipoPerfil)
+                {
+                    case "Administrador":
+                        label3.Visible = true; // Mostrar
+                        textBox5.Visible = true; // Mostrar
+                        MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
+                        break;
+
+                    case "Professor":
+                        MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
+                        break;
+
+                    case "Aluno":
+                        label3.Visible = true; // Mostrar
+                        textBox5.Visible = true; // Mostrar
+                        MessageBox.Show("A tua senha é o teu número de matrícula (13 dígitos consecutivos).");
+                        break;
+
+                    case "Usuário Externo":
+                        MessageBox.Show("A tua senha é o teu CPF no formato 'XXX.XXX.XXX-XX'");
+                        break;
+
+                    case "Bibliotecário":
+                        MessageBox.Show("A tua senha precisa de, no mínimo, 8 (oito) dígitos.");
+                        break;
+
+                    default:
+                        MessageBox.Show("Selecione um perfil válido.");
+                        break;
+                }
+            }
+
+            // Limpa os campos de texto ao alterar o tipo de perfil na ComboBox
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
         }
+
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
+            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor" || comboBox1.SelectedItem.ToString() == "Usuário Externo")
                 textBox3.Text = CPF_Formatacao(textBox3.Text);
             textBox3.SelectionStart = textBox3.Text.Length;
             if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Aluno")
@@ -142,7 +172,6 @@ namespace SistemaDeBiblioteca.Formulário_s_
             // Validação para garantir que as senhas sejam iguais
             if (senhaUsuarioCPF != confirmarSenhaUsuarioCPF)
             {
-                
                 MessageBox.Show("As senhas não coincidem. Por favor, verifique.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox4.Focus(); // Foca no campo de confirmação para correção
                 return; // Interrompe a execução do código
@@ -200,7 +229,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
                     textBox4.Focus(); // Foca no campo de confirmação para correção
                     return; // Interrompe a execução do código
                 }
-
+                    
                 // Validação do CPF (apenas números e formato correto)
                 if (!CPFValido(senhaAdminCPF))
                 {
@@ -253,6 +282,9 @@ namespace SistemaDeBiblioteca.Formulário_s_
                 string senhaCPFProfessor = textBox3.Text;
                 string confirmarSenhaCPFProfessor = textBox4.Text;
 
+                label3.Visible = false; // ocultar o texto "Matrícula"
+                textBox5.Visible = false; // ocultar o campo de texto
+
                 // Validação para garantir que as senhas sejam iguais
                 if (senhaCPFProfessor != confirmarSenhaCPFProfessor)
                 {
@@ -297,14 +329,24 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
             else if (comboBox1.SelectedItem.ToString() == "Aluno")
             {
+                label3.Visible = true; // ocultar o texto "Matrícula"
+                textBox5.Visible = true; // ocultar o campo de texto
+
                 if (!MatriculaValida(textBox3.Text))
                     MessageBox.Show("A matrícula digitada não corresponde ao padrão da instituição (13 números consecutivos)", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox3.Focus();
             }
             else if (comboBox1.SelectedItem.ToString() == "Usuário Externo")
             {
+                label3.Visible = false; // ocultar o texto "Matrícula"
+                textBox5.Visible = false; // ocultar o campo de texto
+
                 string nomeUsuarioExterno = textBox1.Text;
-                string senha0 = textBox3.Text;
+                string emailUsuarioExterno = textBox2.Text;
+                string regAlfaNumerico = GerarRegistroAlfanumerico(10);
+                string confirmarSenhaUsuarioExternoCPF = textBox4.Text;
+
+
 
                 // Validação básica (opcional)
                 if (string.IsNullOrEmpty(nomeUsuarioExterno) || string.IsNullOrEmpty(nomeUsuarioExterno))
@@ -313,33 +355,35 @@ namespace SistemaDeBiblioteca.Formulário_s_
                     return;
                 }
 
-                try
+                using (MySqlConnection connection3 = new MySqlConnection(stringDeConexao0))
                 {
-                    // Cria um novo documento com dados do usuário na coleção "Usuarios"
-                    DocumentReference docRef = db.Collection("Usuários").Document(nomeUsuarioExterno);
-
-                    var usuario = new
+                    try
                     {
-                        NomeUsuarioExterno = nomeUsuarioExterno,
-                        Senha = senha0
-                    };
-                    await docRef.SetAsync(usuario);
+                        connection3.Open();
 
-                    MessageBox.Show("Usuário cadastrado com sucesso!");
-                    // Limpe os campos:
-                    textBox1.Clear();
-                    textBox3.Clear();
+                        string query3 = "INSERT INTO usuario_externo (cpf_usuario, registroNumerico, email, nome) VALUES (@Cpf_usuario, @RegistroNumerico, @Email, @Nome)";
 
+                        MySqlCommand command3 = new MySqlCommand(query3, connection3);
+
+                        command3.Parameters.AddWithValue("@Cpf_usuario", senhaUsuarioCPF);
+                        command3.Parameters.AddWithValue("@RegistroNumerico", regAlfaNumerico);
+                        command3.Parameters.AddWithValue("@Email", emailUsuarioExterno);
+                        command3.Parameters.AddWithValue("@Nome", nomeUsuarioExterno);
+                                                
+                        command3.ExecuteNonQuery();
+
+                        MessageBox.Show("Dados inseridos com sucesso!");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro: " + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao cadastrar usuário: " + ex.Message);
-                }
-
+                /*
                 if (!SenhaValida(textBox3.Text))
                     MessageBox.Show("A senha precisa de, no mínimo, 8 (oito) números.");
-                textBox3.Focus();
-
+                textBox3.Focus();*/
             }
             else if (comboBox1.SelectedItem.ToString() == "Bibliotecário")
             {
@@ -371,6 +415,16 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
         }
 
+        public string GerarRegistroAlfanumerico(int comprimento)
+        {
+            const string caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+
+            return new string(Enumerable.Range(0, comprimento)
+                .Select(_ => caracteresPermitidos[random.Next(caracteresPermitidos.Length)])
+                .ToArray());
+        }
+
         public bool EmailValido(string email)
         {
             // Expressão regular para verificar o formato do e-mail
@@ -380,7 +434,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
+            if (comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor" || comboBox1.SelectedItem.ToString() == "Usuário Externo")
                 textBox4.Text = CPF_Formatacao(textBox4.Text);
             textBox4.SelectionStart = textBox4.Text.Length;
         }
