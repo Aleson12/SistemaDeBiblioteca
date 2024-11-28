@@ -58,7 +58,10 @@ namespace SistemaDeBiblioteca
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
+            if (comboBox1.SelectedItem == null)
+                MessageBox.Show("Preencha os campos de entrada para poder acessar o sistema.");
+            
+            else if (comboBox1.SelectedItem.ToString() == "Administrador" || comboBox1.SelectedItem.ToString() == "Professor")
             {
                 if (!cadastro.CPFValido(textBox2.Text))
                     MessageBox.Show("O CPF digitado está em um formato incorreto. Por favor, use o formato XXX.XXX.XXX-XX.", "Erro de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
