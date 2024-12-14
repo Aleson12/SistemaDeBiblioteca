@@ -22,11 +22,11 @@ using FireSharp.Extensions;
 
 namespace SistemaDeBiblioteca.Formulário_s_
 {
-    public partial class Cadastro : Form
+    public partial class CadastroDeUsuarioAluno : Form
     {
         TelaInicial telaInicial = new TelaInicial();
 
-        public Cadastro()
+        public CadastroDeUsuarioAluno()
         {
             InitializeComponent();
             ConexaoAoBanco();

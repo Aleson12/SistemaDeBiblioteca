@@ -1,6 +1,6 @@
 ﻿namespace SistemaDeBiblioteca.Formulário_s_
 {
-    partial class Cadastro
+    partial class CadastroDeUsuarioAluno
     {
         /// <summary>
         /// Required designer variable.
@@ -139,13 +139,13 @@
             label1.TabIndex = 0;
             label1.Text = "Nome:";
             // 
-            // Cadastro
+            // CadastroDeUsuarioAluno
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(groupBox1);
-            Name = "Cadastro";
+            Name = "CadastroDeUsuarioAluno";
             Text = "Cadastro";
             TopMost = true;
             groupBox1.ResumeLayout(false);

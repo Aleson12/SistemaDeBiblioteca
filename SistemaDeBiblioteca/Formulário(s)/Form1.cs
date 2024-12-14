@@ -6,7 +6,7 @@ namespace SistemaDeBiblioteca
 {
     public partial class SistemaBiblioteca : Form
     {
-        Cadastro cadastro = new Cadastro();
+        CadastroDeUsuarioAluno cadastro = new CadastroDeUsuarioAluno();
 
         public SistemaBiblioteca()
         {
@@ -16,7 +16,7 @@ namespace SistemaDeBiblioteca
         private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // toda vez em que o link for clicado, instanciar-se-á um novo objeto (o que se traduz aqui como um novo formulário).
-            Cadastro cadastro1 = new Cadastro();
+            CadastroDeUsuarioAluno cadastro1 = new CadastroDeUsuarioAluno();
             cadastro1.Show();
         }
 
@@ -70,7 +70,7 @@ namespace SistemaDeBiblioteca
                 {
                     MessageBox.Show("Erro ao verificar usuário: " + ex.Message);
                     return false;
-                }
+                }   
             }
         }
 

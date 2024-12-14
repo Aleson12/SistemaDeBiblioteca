@@ -16,5 +16,16 @@ namespace SistemaDeBiblioteca.Formulário_s_
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CadastroDeUsuario cadastrarUsuarioExterno = new CadastroDeUsuario();
+            cadastrarUsuarioExterno.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -116,7 +116,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(textBox2);
-            groupBox1.Location = new Point(12, 12);
+            groupBox1.Location = new Point(7, 11);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(934, 511);
             groupBox1.TabIndex = 13;
@@ -139,7 +139,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(940, 558);
+            ClientSize = new Size(931, 557);
             Controls.Add(groupBox1);
             Cursor = Cursors.Hand;
             MinimumSize = new Size(722, 0);
