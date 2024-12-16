@@ -58,98 +58,7 @@ namespace SistemaDeBiblioteca.Formulário_s_
             return true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string nomeUsuario = textBox1.Text;
-            string email = textBox4.Text;
-            string cpfUsuario = textBox3.Text;
-            string registroAlfanumerico = textBox2.Text;
 
-            bool cpfInvalido = !CPFValido(cpfUsuario) && !string.IsNullOrWhiteSpace(cpfUsuario);
-            bool entradaNumericaInvalida = !ValidarRegistroAlfaNum(registroAlfanumerico);
-            bool nomeUsuarioInvalido = !ValidarNomeUsuario(nomeUsuario);
-            bool nomeUsuarioVazio = string.IsNullOrWhiteSpace(nomeUsuario);
-
-            if (cpfInvalido)
-            {
-                MessageBox.Show("Formato de Senha incorreto. A tua Senha é o teu CPF.");
-                return;
-            }
-
-            if (nomeUsuarioInvalido)
-            {
-                MessageBox.Show("O nome de usuário deve conter apenas letras.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (nomeUsuarioVazio)
-            {
-                MessageBox.Show("O nome de usuário não pode estar vazio.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Realiza o cadastro no banco de dados
-            if (CadastrarUsuario(nomeUsuario, cpfUsuario, registroAlfanumerico, email))
-                MessageBox.Show("Usuário cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Erro ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public static bool CadastrarUsuario(string nome, string cpf, string registroAlfanumerico, string email)
-        {
-            string stringDeConexao0 = "Server=localhost;Database=sistemabiblioteca;Uid=root;Pwd=28064212";
-
-            // Primeira query para inserir o CPF na tabela 'usuario'
-            string queryInserirUsuario = "INSERT INTO usuario (cpf, nome) VALUES (@cpf_usuario, @nome)";
-
-            // Query para inserir na tabela 'usuario_externo'
-            string queryInserirUsuarioExterno = "INSERT INTO usuario_externo (cpf_usuario, RegistroNumerico, Email, Nome) VALUES (@cpf_usuario, @registroNumerico, @email, @nome)";
-
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(stringDeConexao0))
-                {
-                    connection.Open();
-
-                    // Inserir o CPF na tabela 'usuario'
-                    using (MySqlCommand commandInserirUsuario = new MySqlCommand(queryInserirUsuario, connection))
-                    {
-                        commandInserirUsuario.Parameters.AddWithValue("@cpf_usuario", cpf);
-                        commandInserirUsuario.Parameters.AddWithValue("@nome", nome);
-
-                        // Executa a inserção na tabela 'usuario'
-                        int rowsAffectedUsuario = commandInserirUsuario.ExecuteNonQuery();
-                        if (rowsAffectedUsuario == 0)
-                        {
-                            // Se não conseguiu inserir, retorna erro
-                            MessageBox.Show("Erro ao inserir o CPF na tabela 'usuario'.");
-                            return false;
-                        }
-                    }
-
-                    // Após inserir na tabela 'usuario', inserir na tabela 'usuario_externo'
-                    using (MySqlCommand commandInserirUsuarioExterno = new MySqlCommand(queryInserirUsuarioExterno, connection))
-                    {
-                        commandInserirUsuarioExterno.Parameters.AddWithValue("@cpf_usuario", cpf);
-                        commandInserirUsuarioExterno.Parameters.AddWithValue("@registroNumerico", registroAlfanumerico);
-                        commandInserirUsuarioExterno.Parameters.AddWithValue("@email", email);
-                        commandInserirUsuarioExterno.Parameters.AddWithValue("@nome", nome);
-
-                        // Executa a inserção na tabela 'usuario_externo'
-                        commandInserirUsuarioExterno.ExecuteNonQuery();
-                    }
-                }
-
-                // Se tudo foi bem-sucedido, retorna verdadeiro
-                return true;
-            }
-            catch (Exception ex)
-            {
-                // Caso algum erro ocorra, exibe a mensagem de erro
-                MessageBox.Show($"Erro de banco de dados: {ex.Message}");
-                return false;
-            }
-        }
 
 
         // Função para formatar o CPF
@@ -182,14 +91,127 @@ namespace SistemaDeBiblioteca.Formulário_s_
             if (comboBox1.SelectedItem.ToString() == "Usuário Externo")
             {
                 // Torna o TextBox e o Label visíveis
-                textBox1.Visible = true;
-                label1.Visible = true;
+                textBox2.Visible = true;
+                label2.Visible = true;
             }
             else
             {
-                // Torna o TextBox e o Label invisíveis
-                textBox1.Visible = false;
-                label1.Visible = false;
+                label2.Visible = false;
+                textBox2.Visible = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Obtém o tipo de usuário selecionado na ComboBox
+            string tipoUsuario = comboBox1.SelectedItem?.ToString();
+            if (string.IsNullOrWhiteSpace(tipoUsuario))
+            {
+                MessageBox.Show("Selecione o tipo de usuário.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Dados comuns a serem coletados das TextBox
+            string nome = textBox1.Text;
+            string cpf = textBox3.Text;
+            string email = textBox4.Text;
+            string senha = textBox5.Text;
+            string nomeLogin = textBox1.Text;
+            string matricula = textBox6.Text;
+            string registroAlfanumerico = textBox2.Text;
+
+            // Chama o método que insere os dados no banco
+            bool sucesso = CadastrarUsuarioNoBanco(tipoUsuario, nome, cpf, email, senha, nomeLogin, matricula, registroAlfanumerico);
+
+            // Exibe a mensagem de sucesso ou erro
+            if (sucesso)
+                MessageBox.Show("Usuário cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else    
+                MessageBox.Show("Erro ao cadastrar usuário. Verifique os dados informados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private bool CadastrarUsuarioNoBanco(string tipoUsuario, string nome, string cpf, string email, string senha, string nomeLogin, string matricula, string registroAlfanumerico)
+        {
+            string stringDeConexao = "Server=localhost;Database=sistemabiblioteca;Uid=root;Pwd=28064212";
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(stringDeConexao))
+                {
+                    connection.Open();
+
+                    // Primeiro, insere os dados na tabela 'usuario'
+                    string queryUsuario = "INSERT INTO usuario (cpf, email, nome) VALUES (@cpf, @email, @nome)";
+                    MySqlCommand commandUsuario = new MySqlCommand(queryUsuario, connection);
+                    commandUsuario.Parameters.AddWithValue("@cpf", cpf);
+                    commandUsuario.Parameters.AddWithValue("@email", email);
+                    commandUsuario.Parameters.AddWithValue("@nome", nome);
+
+                    // Executa a inserção na tabela 'usuario'
+                    commandUsuario.ExecuteNonQuery();
+
+                    // Define a query específica com base no tipo de usuário
+                    string query = "";
+                    MySqlCommand command = new MySqlCommand();
+                    command.Connection = connection;
+
+                    switch (tipoUsuario.ToLower())
+                    {
+                        case "administrador":
+                            query = "INSERT INTO administradordosistema (matricula, cpf_usuario, email, nome) VALUES (@matricula, @cpf, @email, @nome)";
+                            command.Parameters.AddWithValue("@matricula", matricula);
+                            command.Parameters.AddWithValue("@cpf", cpf);
+                            command.Parameters.AddWithValue("@email", email);
+                            command.Parameters.AddWithValue("@nome", nome);
+                            break;
+
+                        case "aluno":
+                            query = "INSERT INTO aluno (senha, nomeLogin, email) VALUES (@senha, @nomeLogin, @email)";
+                            command.Parameters.AddWithValue("@senha", senha);
+                            command.Parameters.AddWithValue("@nomeLogin", nomeLogin);
+                            command.Parameters.AddWithValue("@email", email);
+                            break;
+
+                        case "bibliotecário":
+                            query = "INSERT INTO bibliotecario (senha, nomeLogin, cpf_usuario, email) VALUES (@senha, @nome, @cpf, @email)";
+                            command.Parameters.AddWithValue("@senha", senha);
+                            command.Parameters.AddWithValue("@nome", nome);
+                            command.Parameters.AddWithValue("@cpf", cpf);
+                            command.Parameters.AddWithValue("@email", email);
+                            break;
+
+                        case "professor":
+                            query = "INSERT INTO professor (senha, nomeLogin, cpf_professor, email) VALUES (@senha, @nome, @cpf, @email)";
+                            command.Parameters.AddWithValue("@senha", senha);
+                            command.Parameters.AddWithValue("@nome", nome);
+                            command.Parameters.AddWithValue("@cpf", cpf);
+                            command.Parameters.AddWithValue("@email", email);
+                            break;
+
+                        case "usuário externo":
+                            query = "INSERT INTO usuario_externo (cpf_usuario, registroNumerico, email, nome) VALUES (@cpf, @registroNumerico, @email, @nome)";
+                            command.Parameters.AddWithValue("@cpf", cpf);
+                            command.Parameters.AddWithValue("@registroNumerico", registroAlfanumerico);
+                            command.Parameters.AddWithValue("@email", email);
+                            command.Parameters.AddWithValue("@nome", nome);
+                            break;
+
+                        default:
+                            MessageBox.Show("Tipo de usuário inválido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                    }
+
+                    // Configura e executa a query para a tabela específica
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+
+                return true; // Cadastro realizado com sucesso
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao acessar o banco de dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
     }

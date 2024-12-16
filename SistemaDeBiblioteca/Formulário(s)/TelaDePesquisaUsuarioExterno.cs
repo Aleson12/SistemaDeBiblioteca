@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace SistemaDeBiblioteca.Formulário_s_
 {
-    public partial class TelaDePesquisaUsuarioExterno : Form
+    public partial class CadastroDeLivro : Form
     {
-        public TelaDePesquisaUsuarioExterno()
+        public CadastroDeLivro()
         {
             InitializeComponent();
         }

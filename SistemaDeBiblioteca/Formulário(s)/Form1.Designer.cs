@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            linkLabel1 = new LinkLabel();
             label1 = new Label();
             label2 = new Label();
             textBox1 = new TextBox();
@@ -41,19 +40,6 @@
             ((System.ComponentModel.ISupportInitialize)usuarioBindingSource).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(308, 455);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(315, 20);
-            linkLabel1.TabIndex = 6;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Se você é Aluno, clique aqui para se cadastrar.";
-            linkLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked_1;
             // 
             // label1
             // 
@@ -112,7 +98,6 @@
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(linkLabel1);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(textBox2);
@@ -154,7 +139,6 @@
         }
 
         #endregion
-        private LinkLabel linkLabel1;
         private Label label1;
         private Label label2;
         private TextBox textBox1;
