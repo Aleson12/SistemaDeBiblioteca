@@ -43,7 +43,7 @@
             button1.Location = new Point(109, 77);
             button1.Name = "button1";
             button1.Size = new Size(441, 45);
-            button1.TabIndex = 0;
+            button1.TabIndex = 1;
             button1.Text = "Cadastrar Usuário";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -54,7 +54,7 @@
             button2.Location = new Point(109, 157);
             button2.Name = "button2";
             button2.Size = new Size(441, 43);
-            button2.TabIndex = 1;
+            button2.TabIndex = 2;
             button2.Text = "Usuários Cadastrados";
             button2.UseVisualStyleBackColor = true;
             // 
@@ -64,7 +64,7 @@
             button3.Location = new Point(109, 326);
             button3.Name = "button3";
             button3.Size = new Size(441, 35);
-            button3.TabIndex = 2;
+            button3.TabIndex = 4;
             button3.Text = "Sair";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
@@ -93,6 +93,7 @@
             button4.TabIndex = 3;
             button4.Text = "Cadastrar Livro";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // TelaAdministrador
             // 

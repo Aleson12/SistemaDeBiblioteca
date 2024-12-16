@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            textBox6 = new TextBox();
+            label5 = new Label();
             textBox5 = new TextBox();
             label7 = new Label();
             textBox3 = new TextBox();
@@ -47,6 +49,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(textBox6);
+            groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(textBox3);
@@ -67,12 +71,28 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Sistema de Biblioteca";
             // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(294, 315);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(273, 27);
+            textBox6.TabIndex = 7;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(165, 318);
+            label5.Name = "label5";
+            label5.Size = new Size(123, 20);
+            label5.TabIndex = 23;
+            label5.Text = "Data de Inclusão:";
+            // 
             // textBox5
             // 
             textBox5.Location = new Point(78, 239);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(273, 27);
-            textBox5.TabIndex = 22;
+            textBox5.TabIndex = 3;
             // 
             // label7
             // 
@@ -88,7 +108,7 @@
             textBox3.Location = new Point(462, 239);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(285, 27);
-            textBox3.TabIndex = 20;
+            textBox3.TabIndex = 6;
             // 
             // label6
             // 
@@ -113,30 +133,31 @@
             textBox2.Location = new Point(452, 154);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(295, 27);
-            textBox2.TabIndex = 16;
+            textBox2.TabIndex = 5;
             // 
             // button1
             // 
-            button1.Location = new Point(15, 338);
+            button1.Location = new Point(15, 381);
             button1.Name = "button1";
             button1.Size = new Size(732, 39);
-            button1.TabIndex = 15;
+            button1.TabIndex = 8;
             button1.Text = "Cadastrar";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox7
             // 
             textBox7.Location = new Point(70, 158);
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(281, 27);
-            textBox7.TabIndex = 13;
+            textBox7.TabIndex = 2;
             // 
             // textBox4
             // 
             textBox4.Location = new Point(462, 66);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(285, 27);
-            textBox4.TabIndex = 10;
+            textBox4.TabIndex = 4;
             // 
             // label4
             // 
@@ -180,6 +201,7 @@
             Controls.Add(groupBox1);
             Name = "CadastroDeLivro";
             Text = "CadastroDeLivro";
+            TopMost = true;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -201,5 +223,7 @@
         private Label label7;
         private TextBox textBox3;
         private Label label6;
+        private TextBox textBox6;
+        private Label label5;
     }
 }

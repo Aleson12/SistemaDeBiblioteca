@@ -27,5 +27,11 @@ namespace SistemaDeBiblioteca.Formulário_s_
         {
             this.Close();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CadastroDeLivro cadastroDeLivro = new CadastroDeLivro();
+            cadastroDeLivro.Show();
+        }
     }
 }
